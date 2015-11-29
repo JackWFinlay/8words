@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html ng-app="core">
+<head>
+	<link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.css">
+
+	<script src="libs/angular/angular.js"></script>
+	<script src="core.js"></script>
+
+	<title>8words</title>
+</head>
+<body>
+	<div class="jumbotron">
+		<div class="container">
+			<h1>8words</h1>
+			<p>Understood.</p>
+		</div>
+	</div>
+	<div class="col-sm-10 col-sm-push-1">
+		<div id="new-sentence-form" class="row">
+			
+		<div>
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="What's up?">
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="button">Say</button>
+					</span>
+				</div>
+			</div>
+		</div>
+		
+
+		<div class="container" ng-controller="SentenceController as sc">
+			<div ng-repeat="sentence in sentences">
+				<blockquote>
+					<p>{{sentence.sentence}}</p>
+					<p>-{{sentence.userName}} {{sentence.date | date}}</p>
+				</blockquote>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

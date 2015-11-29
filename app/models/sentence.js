@@ -8,8 +8,7 @@ var SentenceSchema = new Schema({
 	sentence : String,
 	likes : Number,
 	deleted : Boolean,
-	date : Date,
-
+	date : Date
 });
 
 module.exports = mongoose.model('Sentence', SentenceSchema);
