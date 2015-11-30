@@ -28,6 +28,10 @@ blockquote {
 	}
 }
 
+.btn:active .btn:hover{
+  color: #fff;
+}
+
 @media (max-width: 768px) {
 	.col-xs-push-1 {
 		left: percentage(1/12);

@@ -40,4 +40,13 @@ app.controller('SentenceController', function($scope, $http) {
 	            console.log('Error: ' + data);
 	        });
 	};
+
+
+	$scope.isValidSentence = function(sentence){
+		if (sentence === null){
+			return false
+		}
+		
+		return !sentence.match(/^(\b\w+\b[\s]*){1,8}(\.{0,3})$/)
+	}
 });

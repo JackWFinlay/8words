@@ -63,19 +63,33 @@ router.route('/sentences')
 				res.send(err);
 			}
 
-			res.json({ message: 'Sentence posted!'});
+			Sentence
+					.find({ 'deleted' : false })
+					.sort('-date') // sort by date desc.
+					.exec(function(err, sentences) {
+				if (err) {
+					res.send(err);
+				}
+
+				res.json(sentences);
+			});
+
 		});
 	})
 
 	// get all the sentences (accessed at GET http://localhost:8080/api/sentences)
 	.get(function(req, res) {
-		Sentence.find({ 'deleted' : false },function(err, sentences) {
+		Sentence
+		.find({ 'deleted' : false })
+		.sort('-date') // sort by date desc.
+		.exec(function(err, sentences) {
 			if (err) {
 				res.send(err);
 			}
 
 			res.json(sentences);
 		});
+
 	});
 
 router.route('/sentences/:sentence_id')

@@ -20,6 +20,10 @@ blockquote {
   color: #990000;
 }
 
+.btn:active .btn:hover {
+  color: #fff;
+}
+
 @media (max-width: 768px) {
   .col-xs-push-1 {
     left: 8.33333%;
