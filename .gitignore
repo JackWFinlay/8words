@@ -33,3 +33,5 @@ node_modules
 libs
 prepros.cfg
 config
+.idea
+

@@ -1,3 +1,27 @@
-.container {
+.row {
   margin-bottom: 50px;
+}
+
+.btn-red {
+  color: #fff;
+  background-color: #990000;
+  border-color: #6b0000;
+}
+
+blockquote {
+  border-left: 5px solid #990000;
+}
+
+.jumbotron h1 {
+  font-size: 63px;
+}
+
+.jumbotron p {
+  color: #990000;
+}
+
+@media (max-width: 768px) {
+  .col-xs-push-1 {
+    left: 8.33333%;
+  }
 }

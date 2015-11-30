@@ -7,34 +7,32 @@
 	<script src="libs/angular/angular.js"></script>
 	<script src="core.js"></script>
 
-	<title>8words</title>
+	<title>8words.</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
 	<div class="jumbotron">
-		<div class="container">
-			<h1>8words</h1>
-			<p>Understood.</p>
+		<div class="row">
+		<div class="col-xs-10 col-xs-push-1 col-sm-10 col-sm-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3">
+			<h1>8words.</h1>
+			<p>Be understood.</p>
+		</div>
 		</div>
 	</div>
 
 	
-	<div class="col-sm-10 col-sm-push-1">
-		<div class="container">
-			<div id="new-sentence-form" class="row">
-				
-				<div>
-					<div class="input-group">
-						<input type="text" class="form-control" placeholder="What's up?">
-						<span class="input-group-btn">
-							<button class="btn btn-primary" type="button">Say</button>
-						</span>
-					</div>
+	<div class="col-xs-10 col-xs-push-1 col-sm-10 col-sm-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3">
+			<div id="new-stentence-form" class="row">		
+				<div class="input-group col-sm-12">
+					<input type="text" class="form-control" placeholder="What's up?">
+					<span class="input-group-btn">
+						<button class="btn btn-red" type="button">Say</button>
+					</span>
 				</div>
 			</div>
-		</div>
 		
 
-		<div class="container" ng-controller="SentenceController as sc">
+		<div class="row" ng-controller="SentenceController as sc">
 			<div ng-repeat="sentence in sentences">
 				<blockquote>
 					<p>{{sentence.sentence}}</p>
