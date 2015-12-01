@@ -1,9 +1,7 @@
 // core.js
 var app = angular.module('core', []);
 
-	
-
-app.controller('SentenceController', function($scope, $http) {
+app.controller('SentenceController', function($scope, $http, $timeout) {
 	$scope.formData = {};
 
 	// when landing on the page, get all todos and show them
@@ -29,7 +27,7 @@ app.controller('SentenceController', function($scope, $http) {
 	        });
 	};
 
-	// delete a todo after checking it
+
 	$scope.deleteSentence = function(id) {
 	    $http.delete('/api/sentences/' + id)
 	        .success(function(data) {
@@ -43,10 +41,20 @@ app.controller('SentenceController', function($scope, $http) {
 
 
 	$scope.isValidSentence = function(sentence){
-		if (sentence === null){
+		if (sentence === null ||
+			sentence === "" ||
+			sentence === undefined){
 			return false
 		}
 		
 		return !sentence.match(/^(\b\w+\b[\s]*){1,8}(\.{0,3})$/)
 	}
+
+
+	$scope.doMessage = function() {
+       $scope.showMessage = true;
+       $timeout(function(){
+          $scope.showMessage = false;
+       }, 5000);
+    };
 });

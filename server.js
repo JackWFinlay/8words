@@ -43,6 +43,9 @@ router.get('/', function(req, res) {
 	res.json({ message: 'Nothing here!' });
 });
 
+var obj = { message: "", sentences: []}
+
+
 // more routes for our API will happen here
 
 // on routes that end in /sentences
@@ -70,8 +73,11 @@ router.route('/sentences')
 				if (err) {
 					res.send(err);
 				}
+				obj.sentences = sentences;
 
-				res.json(sentences);
+				obj.message = "Sentence posted!";
+				console.log(obj);
+				res.json(obj);
 			});
 
 		});
@@ -86,8 +92,11 @@ router.route('/sentences')
 			if (err) {
 				res.send(err);
 			}
-
-			res.json(sentences);
+			
+			obj.sentences = sentences;
+			obj.message = "";
+			console.log(obj);
+			res.json(obj);
 		});
 
 	});
