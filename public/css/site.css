@@ -2,6 +2,14 @@
   margin-bottom: 50px;
 }
 
+.add-margin {
+  margin-bottom: 82px !important;
+}
+
+.remove-margin {
+  margin-bottom: 10px !important;
+}
+
 .btn-red {
   color: #fff;
   background-color: #990000;

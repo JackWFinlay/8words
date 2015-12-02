@@ -9,9 +9,13 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var db 		   = require('./config/db');
+var secret     = require('./config/secret');
 var mongoose   = require('mongoose');
 var Sentence   = require('./app/models/sentence');
-var path = require('path');
+var path       = require('path');
+var jwt        = require('jsonwebtoken'); // used to create, sign, and verify tokens
+var User       = require('./app/models/user'); // get our mongoose model
+var morgan     = require('morgan');
 
 mongoose.connect(db.url);
 
@@ -24,6 +28,10 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 // serve static resources. i.e. public/css/site.css will be css/site.css
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '../')))
+
+app.use(morgan('dev'));
+
+app.set('secret', secret.secret);
 
 var port = process.env.PORT || 8080;        // set our port
 
@@ -73,10 +81,10 @@ router.route('/sentences')
 				if (err) {
 					res.send(err);
 				}
-				obj.sentences = sentences;
 
+				obj.sentences = sentences;
 				obj.message = "Sentence posted!";
-				console.log(obj);
+
 				res.json(obj);
 			});
 
@@ -95,7 +103,7 @@ router.route('/sentences')
 			
 			obj.sentences = sentences;
 			obj.message = "";
-			console.log(obj);
+
 			res.json(obj);
 		});
 
@@ -112,12 +120,17 @@ router.route('/sentences/:sentence_id')
 				//res.send(err);
 			}
 
+			obj.message = ""
+			obj.sentences = sentence
+
 			if (sentence.deleted){
-				// Send back empty array if sentence is "deleted".
-				sentence = [];
+
+				obj.message = "The sentence does not exist or was deleted."
+				// Send back empty array if sentence is marked "deleted".
+				obj.sentence = [];
 			}
 
-			res.json(sentence);
+			res.json(obj);
 		});
 	})
 
@@ -128,11 +141,15 @@ router.route('/sentences/:sentence_id')
 
 			sentence.save(function(err, sentence) {
 				if (err) {
-					res.json({ message: 'The specfied sentence does not exist.' });
+					obj.message = 'There was an error deleting the sentence. The specfied sentence may not exist.';
+					obj.sentences = [];
+					res.json(obj);
 					//res.send(err);
 				}
 
-				res.json({ message: 'Successfully deleted!' });
+				obj.message = 'Successfully deleted!';
+				onj.sentences = [];
+				res.json(obj);
 			});
 		});
 
@@ -140,7 +157,7 @@ router.route('/sentences/:sentence_id')
 		
 	});
 
-app.get('/sentences', function(req, res) {
+app.get('/', function(req, res) {
         res.sendFile("/public/index.html", {"root": __dirname});
         //res.sendFile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });

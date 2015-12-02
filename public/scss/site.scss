@@ -5,6 +5,14 @@ $dark-red: rgb(107,0,0);
 	margin-bottom: 50px;
 }
 
+.add-margin {
+	margin-bottom: 82px !important;
+}
+
+.remove-margin {
+	margin-bottom: 10px !important;
+}
+
 .btn-red {
     color: #fff;
     background-color: $red;
@@ -29,8 +37,9 @@ blockquote {
 }
 
 .btn:active .btn:hover{
-  color: #fff;
+  	color: #fff;
 }
+
 
 @media (max-width: 768px) {
 	.col-xs-push-1 {

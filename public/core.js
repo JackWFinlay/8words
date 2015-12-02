@@ -1,14 +1,13 @@
 // core.js
 var app = angular.module('core', []);
 
-app.controller('SentenceController', function($scope, $http, $timeout) {
+app.controller('SentenceController', ['$scope', '$http', '$timeout',function($scope, $http, $timeout) {
 	$scope.formData = {};
 
 	// when landing on the page, get all todos and show them
 	$http.get('/api/sentences')
 	    .success(function(data) {
 	        $scope.sentences = data;
-	        console.log(data);
 	    })
 	    .error(function(data) {
 	        console.log('Error: ' + data);
@@ -20,9 +19,14 @@ app.controller('SentenceController', function($scope, $http, $timeout) {
 	        .success(function(data) {
 	            $scope.formData = {}; // clear the form so our user is ready to enter another
 	            $scope.sentences = data;
+	            $scope.isSuccess = true;
+	            doMessage();
 	            console.log(data);
 	        })
 	        .error(function(data) {
+	        	$scope.isSuccess = false;
+	        	$scope.sentences.message = "Unable to post sentence. Please try again."
+	            doMessage();
 	            console.log('Error: ' + data);
 	        });
 	};
@@ -32,9 +36,15 @@ app.controller('SentenceController', function($scope, $http, $timeout) {
 	    $http.delete('/api/sentences/' + id)
 	        .success(function(data) {
 	            $scope.sentences = data;
+	            $scope.isSuccess = true;
+	            doMessage();
 	            console.log(data);
+
 	        })
 	        .error(function(data) {
+	        	$scope.isSuccess = false;
+	        	$scope.sentences.message="Error deleting sentence. Please try again.";
+	            doMessage();
 	            console.log('Error: ' + data);
 	        });
 	};
@@ -47,14 +57,18 @@ app.controller('SentenceController', function($scope, $http, $timeout) {
 			return false
 		}
 		
-		return !sentence.match(/^(\b\w+\b[\s]*){1,8}(\.{0,3})$/)
+		return !sentence.match(/^(\b\w+\b[\s]*){1,8}(\.{0,3})$/);
 	}
 
 
-	$scope.doMessage = function() {
+	var doMessage = function () {
        $scope.showMessage = true;
-       $timeout(function(){
-          $scope.showMessage = false;
-       }, 5000);
+       $timeout(hideMessage, 5000);
+   	};
+       
+    var hideMessage = function () {
+    	$scope.showMessage = false;
     };
-});
+
+
+}]);
