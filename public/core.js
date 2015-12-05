@@ -1,5 +1,5 @@
 // core.js
-var app = angular.module('core', ['ngAnimate']);
+var app = angular.module('core', ['ngAnimate', 'shared']);
 
 app.controller('SentenceController', ['$scope', '$http', '$timeout',function($scope, $http, $timeout) {
 	$scope.formData = {};
@@ -71,3 +71,5 @@ app.controller('SentenceController', ['$scope', '$http', '$timeout',function($sc
 
 
 }]);
+
+

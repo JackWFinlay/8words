@@ -1,8 +1,18 @@
 $red: rgb(153,0,0);
 $dark-red: rgb(107,0,0);
+$nav-grey: #777;
 
-.row {
-	margin-bottom: 10px;
+.alert-container {
+	min-height: 72px;
+
+}
+
+blockquote {
+	border-left: 5px solid $red;
+}
+
+.btn:active .btn:hover{
+  	color: #fff;
 }
 
 .btn-red {
@@ -15,19 +25,6 @@ $dark-red: rgb(107,0,0);
 	color: #000000;
 }
 
-.field-valid {
-	border: 1px solid green;
-}
-
-.field-invalid {
-	border: 1px solid red;
-}
-
-.alert-container {
-	min-height: 72px;
-
-}
-
 .fade{
   transition: 0.5s linear all;  
   opacity: 1;
@@ -38,9 +35,12 @@ $dark-red: rgb(107,0,0);
   opacity: 0;
 }
 
+.field-invalid {
+	border: 1px solid red;
+}
 
-blockquote {
-	border-left: 5px solid $red;
+.field-valid {
+	border: 1px solid green;
 }
 
 .jumbotron {
@@ -54,10 +54,36 @@ blockquote {
 	}
 }
 
-.btn:active .btn:hover{
-  	color: #fff;
+.nav-bar {
+
 }
 
+.nav-links {
+
+	list-style: none;
+	padding-left: 0px;
+
+	padding-top: 10px;
+	margin-bottom: 0;
+
+	> li {
+		padding-right: 10px;
+		display: inline;
+
+		> a {
+			color: $red;
+			
+		}
+
+	}
+	
+}
+
+
+
+.row {
+	margin-bottom: 10px;
+}
 
 @media (max-width: 768px) {
 	.col-xs-push-1 {
