@@ -1,10 +1,9 @@
 // core.js
-var app = angular.module('core', []);
+var app = angular.module('core', ['ngAnimate']);
 
 app.controller('SentenceController', ['$scope', '$http', '$timeout',function($scope, $http, $timeout) {
 	$scope.formData = {};
 
-	// when landing on the page, get all todos and show them
 	$http.get('/api/sentences')
 	    .success(function(data) {
 	        $scope.sentences = data;
@@ -54,7 +53,7 @@ app.controller('SentenceController', ['$scope', '$http', '$timeout',function($sc
 		if (sentence === null ||
 			sentence === "" ||
 			sentence === undefined){
-			return false
+			return true;
 		}
 		
 		return !sentence.match(/^(\b\w+\b[\s]*){1,8}(\.{0,3})$/);

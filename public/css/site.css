@@ -1,19 +1,37 @@
 .row {
-  margin-bottom: 50px;
-}
-
-.add-margin {
-  margin-bottom: 82px !important;
-}
-
-.remove-margin {
-  margin-bottom: 10px !important;
+  margin-bottom: 10px;
 }
 
 .btn-red {
   color: #fff;
   background-color: #990000;
   border-color: #6b0000;
+}
+
+.btn-red:hover {
+  color: #000000;
+}
+
+.field-valid {
+  border: 1px solid green;
+}
+
+.field-invalid {
+  border: 1px solid red;
+}
+
+.alert-container {
+  min-height: 72px;
+}
+
+.fade {
+  transition: 0.5s linear all;
+  opacity: 1;
+  margin-bottom: 0;
+}
+
+.fade.ng-hide {
+  opacity: 0;
 }
 
 blockquote {

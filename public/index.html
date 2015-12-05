@@ -4,8 +4,8 @@
 	<link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" href="css/site.css">
 
-	<script src="libs/angular/angular.js"></script>
-	<script src="libs/angular-animate/angular-animate.js"></script>
+	<script src="libs/angular/angular.min.js"></script>
+	<script src="libs/angular-animate/angular-animate.min.js"></script>
 	<script src="core.js"></script>
 
 	<title>8words.</title>
@@ -24,51 +24,45 @@
 	
 	<div class="col-xs-10 col-xs-push-1 col-sm-10 col-sm-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3">
 
-		
-
 		<div>
 			<form id="new-stentence-form" 
 			class="row" 
-			ng-class="showMessage && sentences.message !== '' ? 'remove-margin' : 'add-margin'"
 			novalidate>		
-			<div class="input-group col-sm-12">
-				<input id="text-input" 
-				name="sentence" 
-				type="text" 
-				class="form-control"
-				autocomplete="off" 
-				placeholder="What's up?"
-				ng-model="formData.sentence"
-				>
-				<span class="input-group-btn">
-					<button id="submit-button"
-					class="btn btn-red" 
-					ng-click="createSentence();"
-					onclick="this.blur();"
-					ng-disabled="isValidSentence(formData.sentence)" disabled>Say</button>
-				</span>
-
+				<div class="input-group col-sm-12">
+					<input id="text-input" 
+					name="sentence" 
+					type="text" 
+					class="form-control"
+					autocomplete="off" 
+					placeholder="What's up?"
+					ng-model="formData.sentence"
+					>
+					<span class="input-group-btn">
+						<button id="submit-button"
+						class="btn btn-red" 
+						ng-click="createSentence();"
+						onclick="this.blur();"
+						ng-disabled="isValidSentence(formData.sentence)" disabled>Say</button>
+					</span>
+				</div>
+			</form>
+		</div>
+		<div class="alert-container">
+			<div class="" 
+			ng-class="isSuccess ? 'alert alert-success fade' : 'alert alert-danger fade'"
+			ng-show="showMessage && sentences.message !== ''">
+			{{sentences.message}}
 			</div>
-
-		</form>
-
-	</div>
-
-	<div class="alert" 
-		ng-class="isSuccess ? 'alert-success show' : 'alert-danger show'"
-		ng-show="showMessage && sentences.message !== ''">
-		{{sentences.message}}
-	</div>
-
-	<div class="row" >
-		<div ng-repeat="sentence in sentences.sentences">
-			<blockquote>
-				<p>{{sentence.sentence}}</p>
-				<p>-{{sentence.userName}} {{sentence.date | date}}</p>
-			</blockquote>
+		</div>
+		<div class="row" >
+			<div ng-repeat="sentence in sentences.sentences">
+				<blockquote>
+					<p>{{sentence.sentence}}</p>
+					<p>-{{sentence.userName}} {{sentence.date | date}}</p>
+				</blockquote>
+			</div>
 		</div>
 	</div>
-</div>
 
 </body>
 </html>

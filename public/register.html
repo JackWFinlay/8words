@@ -1,0 +1,107 @@
+<!-- register.html -->
+<!DOCTYPE HTML>
+<html ng-app="register">
+<head>
+	<link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="css/site.css">
+
+	<script src="libs/angular/angular.min.js"></script>
+	<script src="libs/angular-animate/angular-animate.min.js"></script>
+	<script src="register.js"></script>
+
+	<title>8words.</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body ng-controller="RegisterController as rc">
+	<div class="jumbotron">
+		<div class="row">
+			<div class="col-xs-10 col-xs-push-1 col-sm-10 col-sm-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3">
+				<h1>8words.</h1>
+				<p>Be understood.</p>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="col-xs-10 col-xs-push-1 col-sm-10 col-sm-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3">
+		<div class="alert-container">
+			<div class="" 
+			ng-class="isSuccess ? 'alert alert-success fade' : 'alert alert-danger fade'"
+			ng-show="showMessage && alertMessage !== ''"
+			>{{alertMessage}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-container">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="username">Username:</label>
+						<div class="col-sm-10">
+      						<input type="text" 
+      						class="form-control" 
+      						id="username" 
+      						placeholder="Enter username"
+      						ng-model="formData.userName"
+      						ng-class="validUserName ? 'field-valid' : 'field-invalid'"
+      						ng-blur="checkUserName(); isComplete();"
+      						required>
+    					</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="email">Email:</label>
+						<div class="col-sm-10">
+      						<input type="email" 
+      						class="form-control" 
+      						id="email" 
+      						placeholder="Enter Email"
+      						ng-model="formData.email"
+      						ng-class="validEmail ? 'field-valid' : 'field-invalid'"
+      						ng-blur="checkEmail(); isComplete();"
+      						required>
+    					</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="password">Password:</label>
+						<div class="col-sm-10">
+      						<input type="password" 
+      						class="form-control" 
+      						id="password" 
+      						placeholder="Password"
+      						ng-model="formData.password"
+      						ng-class="passwordsMatch() ? 'field-valid' : 'field-invalid'"
+      						ng-blur="isComplete();"
+      						required>
+    					</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="confirm-password">Confirm:</label>
+						<div class="col-sm-10">
+      						<input type="password" 
+      						class="form-control" 
+      						id="confirm-password" 
+      						placeholder="Confirm Password"
+      						ng-model="formData.confirmPassword"
+      						ng-class="passwordsMatch() ? 'field-valid' : 'field-invalid'"
+      						ng-blur="isComplete();" 
+      						required>
+    					</div>
+					</div>
+					<div class="row col-sm-offset-2 col-sm-10">
+      					<button type="submit" 
+      							class="btn btn-red"
+								onclick="this.blur();"
+								ng-click="submitRegistration();"
+								ng-disabled="!isFormComplete"
+								>Submit
+						</button>
+    				</div>
+				</form>
+		
+			</div>
+		</div>
+	</div>
+
+	
+
+</body>
+</html>
