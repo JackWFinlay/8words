@@ -45,9 +45,6 @@ router.post('/register', function(req, res) {
 
 			res.json({ 'message' : 'User Created!' });
 		}
-
-
-
 	});
 
 });

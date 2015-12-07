@@ -9,7 +9,9 @@ app.controller('SentenceController', ['$scope', '$http', '$timeout',function($sc
 	        $scope.sentences = data;
 	    })
 	    .error(function(data) {
-	        console.log('Error: ' + data);
+	        $scope.isSuccess = false;
+        	$scope.alertMessage = "Unable to get sentences. Please refresh to try again.";
+            doMessage();
 	    });
 
 	// when submitting the add form, send the text to the node API
@@ -18,13 +20,14 @@ app.controller('SentenceController', ['$scope', '$http', '$timeout',function($sc
 	        .success(function(data) {
 	            $scope.formData = {}; // clear the form so our user is ready to enter another
 	            $scope.sentences = data;
+	            $scope.alertMessage = "Sentence posted!";
 	            $scope.isSuccess = true;
 	            doMessage();
 	            console.log(data);
 	        })
 	        .error(function(data) {
 	        	$scope.isSuccess = false;
-	        	$scope.sentences.message = "Unable to post sentence. Please try again."
+	        	$scope.alertMessage = "Unable to post sentence. Please try again.";
 	            doMessage();
 	            console.log('Error: ' + data);
 	        });
@@ -42,7 +45,7 @@ app.controller('SentenceController', ['$scope', '$http', '$timeout',function($sc
 	        })
 	        .error(function(data) {
 	        	$scope.isSuccess = false;
-	        	$scope.sentences.message="Error deleting sentence. Please try again.";
+	        	$scope.alertMessage="Error deleting sentence. Please try again.";
 	            doMessage();
 	            console.log('Error: ' + data);
 	        });

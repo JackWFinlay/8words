@@ -7,33 +7,17 @@
 
 	<script src="libs/angular/angular.min.js"></script>
 	<script src="libs/angular-animate/angular-animate.min.js"></script>
-	<script src="register.js"></script>
 	<script src="shared.js"></script>
-
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<script src="register.js"></script>
 
 	<title>8words.</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body ng-controller="RegisterController as rc">
-	<div class="jumbotron">
-		<div class="row">
-			<div class="col-xs-10 col-xs-push-1 col-sm-10 col-sm-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3">
-				<h1>8words.</h1>
-				<p>Be understood.</p>
-			</div>
-		</div>
-	</div>
-
+	<header></header>
 	
 	<div class="col-xs-10 col-xs-push-1 col-sm-10 col-sm-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3">
-		<div class="alert-container">
-			<div class="" 
-			ng-class="isSuccess ? 'alert alert-success fade' : 'alert alert-danger fade'"
-			ng-show="showMessage && alertMessage !== ''"
-			>{{alertMessage}}
-			</div>
-		</div>
+		<alert-container></alert-container>
 		<div class="row">
 			<div class="form-container">
 				<form class="form-horizontal" role="form">
@@ -89,14 +73,15 @@
       						required>
     					</div>
 					</div>
-					<div class="row col-sm-offset-2 col-sm-10">
-      					<button type="submit" 
-      							class="btn btn-red"
-								onclick="this.blur();"
-								ng-click="submitRegistration();"
-								ng-disabled="!isFormComplete"
-								>Submit
-						</button>
+					<div class="row">
+						<div class="col-sm-offset-2 col-sm-10 ">
+	      					<button type="submit" 
+	      							class="btn btn-red pull-right"
+									onclick="this.blur();"
+									ng-click="submitRegistration();"
+									>Submit
+							</button>
+	    				</div>
     				</div>
 				</form>
 		

@@ -14,7 +14,7 @@ var User       = require('./app/models/user'); // get our mongoose model
 var morgan     = require('morgan');
 var authenticate = require('./app/routes/authenticate');
 var sentences = require('./app/routes/sentences');
-var signup  = require('./app/routes/signup');
+var registerRoute  = require('./app/routes/register-route');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -38,7 +38,7 @@ var router = express.Router();              // get an instance of the express Ro
 // all of our routes will be prefixed with /api
 app.use('/api', authenticate);
 app.use('/api', sentences);
-app.use('/api', signup);
+app.use('/api', registerRoute);
 
 app.get('/', function(req, res) {
         res.sendFile("/public/index.html", {"root": __dirname});

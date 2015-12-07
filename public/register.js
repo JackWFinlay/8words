@@ -1,26 +1,40 @@
 // register.js
 
-var app = angular.module('register', ['ngAnimate']);
+var app = angular.module('register', ['ngAnimate','shared']);
 
-app.controller('RegisterController', ['$scope','$http', '$timeout', function($scope, $http, $timeout) {
+app.controller('RegisterController', ['$scope','$http', '$timeout', '$window', function($scope, $http, $timeout, $window) {
 	$scope.formData = {};
 	$scope.alertMessage = "";
 	$scope.isFormComplete = false;
 
 	$scope.submitRegistration = function() {
-	    $http.post('/api/register', $scope.formData)
-	        .success(function(data) {
-	            $scope.formData = {}; 
 
-	            $scope.isSuccess = true;
-	            doMessage();
-	        })
-	        .error(function(data) {
-	        	$scope.isSuccess = false;
-	        	$scope.alertMessage = "Unable to submit form. Please try again."
-	            doMessage();
-	            console.log('Error: ' + data);
-	        });
+	    if (!$scope.validUserName){
+	    	$scope.isSuccess = false;
+        	$scope.alertMessage = "Username invalid or in use. Please try again."
+            doMessage();
+	    } else if (!$scope.validEmail){
+	    	$scope.isSuccess = false;
+        	$scope.alertMessage = "Email invalid or in use. Please try again."
+            doMessage();
+	    } else if (!$scope.passwordsMatch()){
+	    	$scope.isSuccess = false;
+			$scope.alertMessage = "Passwords do not match";
+			doMessage();
+	    } else {
+			$http.post('/api/register', $scope.formData)
+		        .success(function(data) {
+		        	$http.post('/api/authenticate', $scope.formData);
+		            $window.location.href = 'index.html';
+		        })
+		        .error(function(data) {
+		        	$scope.isSuccess = false;
+		        	$scope.alertMessage = "Unable to submit form. Please try again."
+		            doMessage();
+		            console.log('Error: ' + data);
+		        }
+		    );
+	    }
 	};
 
 	$scope.checkUserName = function() {
@@ -74,7 +88,8 @@ app.controller('RegisterController', ['$scope','$http', '$timeout', function($sc
 
 	$scope.passwordsMatch = function(){
 		if ($scope.formData.password === "" ||
-			$scope.formData.password === undefined){
+			$scope.formData.password === undefined ||
+			$scope.formData.confirmPassword === undefined){
 			return false;
 		} else {
 
@@ -90,10 +105,11 @@ app.controller('RegisterController', ['$scope','$http', '$timeout', function($sc
 	}
 
 	$scope.isComplete = function() {
-		$scope.isFormComplete =  ($scope.isValidUserName && 
-			 $scope.isValidEmail //&&
-			// $scope.passwordsMatch()
-			);
+		$scope.isFormComplete =  
+			($scope.isValidUserName && 
+			 	$scope.validEmail &&
+				$scope.passwordsMatch()
+		 	);
 	};
 
 	var doMessage = function () {
