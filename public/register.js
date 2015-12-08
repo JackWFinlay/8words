@@ -2,7 +2,10 @@
 
 var app = angular.module('register', ['ngAnimate','shared']);
 
-app.controller('RegisterController', ['$scope','$http', '$timeout', '$window', function($scope, $http, $timeout, $window) {
+app.controller('RegisterController', 
+	['$scope','$http', '$timeout', '$window', 
+		function($scope, $http, $timeout, $window) {
+
 	$scope.formData = {};
 	$scope.alertMessage = "";
 	$scope.isFormComplete = false;
@@ -24,7 +27,10 @@ app.controller('RegisterController', ['$scope','$http', '$timeout', '$window', f
 	    } else {
 			$http.post('/api/register', $scope.formData)
 		        .success(function(data) {
-		        	$http.post('/api/authenticate', $scope.formData);
+		        	$http.post('/api/authenticate', 
+    					$scope.formData).success(function (data){
+    						console.log(data);
+						});
 		            $window.location.href = 'index.html';
 		        })
 		        .error(function(data) {
@@ -120,4 +126,12 @@ app.controller('RegisterController', ['$scope','$http', '$timeout', '$window', f
     var hideMessage = function () {
     	$scope.showMessage = false;
     };
+
+    var authenticate = function (){
+    	$http.post('/api/authenticate', 
+    			$scope.formData).success(function (data){
+    				console.log(data);
+				});
+
+    }
 }]);

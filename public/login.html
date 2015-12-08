@@ -1,0 +1,65 @@
+<!-- login.html -->
+<!DOCTYPE HTML>
+<html ng-app="login">
+<head>
+	<link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="css/site.css">
+
+	<script src="libs/angular/angular.min.js"></script>
+	<script src="libs/angular-animate/angular-animate.min.js"></script>
+	<script src="shared.js"></script> 
+	<script src="login.js"></script>
+	
+
+	<title>8words.</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body ng-controller="LoginController as lc">
+	<header></header>
+
+	<div class="col-xs-10 col-xs-push-1 col-sm-10 col-sm-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3">
+		<alert-container></alert-container>
+		<div class="row">
+			<div class="form-container">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="control-label col-sm-3 " for="username">Username:</label>
+						<div class="col-sm-6">
+      						<input type="text" 
+      						class="form-control" 
+      						id="username" 
+      						placeholder="Enter username"
+      						ng-model="formData.userName"
+      						required>
+    					</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="password">Password:</label>
+						<div class="col-sm-6">
+      						<input type="password" 
+      						class="form-control" 
+      						id="password" 
+      						placeholder="Password"
+      						ng-model="formData.password"
+      						required>
+    					</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-offset-3 col-sm-6 ">
+	      					<button type="submit" 
+	      							class="btn btn-red pull-right"
+									onclick="this.blur();"
+									ng-click="submitRegistration();"
+									>Submit
+							</button>
+	    				</div>
+    				</div>
+				</form>
+		
+			</div>
+		</div>
+		
+	</div>
+
+</body>
+</html>

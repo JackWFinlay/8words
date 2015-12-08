@@ -8,7 +8,7 @@
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var path       = require('path');
-var jwt        = require('jsonwebtoken'); // used to create, sign, and verify tokens
+
 var bodyParser = require('body-parser');
 var User       = require('./app/models/user'); // get our mongoose model
 var morgan     = require('morgan');
@@ -42,14 +42,15 @@ app.use('/api', registerRoute);
 
 app.get('/', function(req, res) {
         res.sendFile("/public/index.html", {"root": __dirname});
-        //res.sendFile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 
 app.get('/register', function(req, res) {
         res.sendFile("/public/register.html", {"root": __dirname});
-        //res.sendFile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 
+app.get('/login', function(req, res) {
+        res.sendFile("/public/login.html", {"root": __dirname});
+});
 
 // START THE SERVER
 // =============================================================================
