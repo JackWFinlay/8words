@@ -42,14 +42,13 @@ router.post( '/authenticate', function(req,res) {
 				});
 			} else {
 				var token = jwt.sign(user, secret.secret, { issuer: '8words' });
-			
-				res.cookie('token' , token, {secure: false, httpOnly: true});
-				res.json({
-					success: true,
-					message: 'Login success.',
-					token: token
-				});
-			} 
+			}
+			res.cookie('token' , token, {secure: false, httpOnly: true});
+			res.send({
+				success: true,
+				message: 'Login success.',
+				token: token
+			}); 
 		}
 	})
 });
