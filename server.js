@@ -5,16 +5,21 @@
 // =============================================================================
 
 // call the packages we need
-var express    = require('express');        // call express
-var app        = express();                 // define our app using express
-var path       = require('path');
-
-var bodyParser = require('body-parser');
-var User       = require('./app/models/user'); // get our mongoose model
-var morgan     = require('morgan');
-var authenticate = require('./app/routes/authenticate');
-var sentences = require('./app/routes/sentences');
+var express    	   = require('express');        // call express
+var app        	   = express();                 // define our app using express
+var path       	   = require('path');
+var session    	   = require('express-session');
+var MongoDBStore   = require('connect-mongodb-session')(session);
+var bodyParser 	   = require('body-parser');
+var User       	   = require('./app/models/user'); // get our mongoose model
+var morgan     	   = require('morgan');
+var authenticate   = require('./app/routes/authenticate');
+var sentences      = require('./app/routes/sentences');
 var registerRoute  = require('./app/routes/register-route');
+var db 		       = require('./config/db');
+var secret         = require('./config/secret');
+var jwt            = require('jsonwebtoken');
+var cookieParser   = require('cookie-parser');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -22,17 +27,61 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
+app.use(cookieParser());
+
 // serve static resources. i.e. public/css/site.css will be css/site.css
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '../')));
 
 app.use(morgan('dev'));
 
-var port = process.env.PORT || 8080;        // set our port
+// SESSION STORE
+// =============================================================================
+
+var store = new MongoDBStore(
+	{ 
+	uri: db.url,
+	collection: 'sessions'
+	});
+
+store.on('error', function(error) {
+      assert.ifError(error);
+      assert.ok(false);
+    });
+
+app.use(require('express-session')({
+		secret: secret.secret,
+		cookie: {
+			maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week 
+		},
+		store: store,
+		resave: false,
+    	saveUninitialized: false
+    }));
+
 
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
+
+app.all('*', function(req, res, next){
+	console.log(req.session.userName);
+	if (req.session.userName === undefined ){
+		var token = req.cookies.token;
+		jwt.verify(token, secret.secret, function(err, decoded) {      
+		    if (err) {
+	      	   	console.log('token verification error');
+		    } else {
+		      	// if everything is good, save to request for use in other routes
+	      		req.decoded = decoded; 
+	      		var userName = req.session.userName;
+	      		userName = req.decoded.userName;   
+		      	//next();
+		    }
+	    });
+	}
+	next();
+});
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
@@ -54,5 +103,6 @@ app.get('/login', function(req, res) {
 
 // START THE SERVER
 // =============================================================================
+var port = process.env.PORT || 8080;        // set our port
 app.listen(port);
 console.log('Magic happens on port ' + port);                       

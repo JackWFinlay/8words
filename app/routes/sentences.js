@@ -1,11 +1,12 @@
 // sentences.js
-var express    = require('express');
-var router 	   = express.Router();
-
-var db 		   = require('./../../config/db');
-var secret     = require('./../../config/secret');
-var mongoose   = require('mongoose');
-var SentenceModel   = require('./../models/sentence');
+var express       = require('express');
+var cookieParser  = require('cookie-parser');
+var router 	      = express.Router();
+var db 		      = require('./../../config/db');
+var secret        = require('./../../config/secret');
+var mongoose      = require('mongoose');
+var SentenceModel = require('./../models/sentence');
+var jwt           = require('jsonwebtoken');
 
 var dbms = mongoose.createConnection(db.url);
 var Sentence = dbms.model('Sentence', SentenceModel);
@@ -16,7 +17,6 @@ router.use(function(req, res, next) {
 	console.log('/sentences routed.');
 	next(); // make sure we go to the next routes and don't stop here
 });
-
 
 var obj = { message: "", sentences: []};
 
@@ -58,47 +58,52 @@ router.get('/sentences/:sentence_id', function(req, res) {
 });
 
 
-// // PROTECTED ROUTES
-// // =============================================================================
+// PROTECTED ROUTES
+// =============================================================================
+//router.use(cookieParser());
 
-// router.use(function(req, res, next) {
+router.use('/sentences', function(req, res, next) {
+	console.log('about to check for token');
+	// check header or url parameters or post parameters for token
+  	var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
+ 	console.log(token);
+ 	// decode token
+ 	if (token) {
 
-//   // check header or url parameters or post parameters for token
-//   var token = req.body.token || req.query.token || req.headers['x-access-token'];
+	    // verifies secret and checks exp
+	    jwt.verify(token, secret.secret, function(err, decoded) {      
+		    if (err) {
+		   		console.log('Failed to authenticate token.');
+		      	return res.json({ success: false, message: 'Failed to authenticate token.' });    
+		    } else {
+		      	// if everything is good, save to request for use in other routes
+	      		req.decoded = decoded; 
+	      		console.log('about to pass to next');   
+		      	next();
+		    }
+	    });
 
-//   // decode token
-//   if (token) {
+	} else {
 
-//     // verifies secret and checks exp
-//     jwt.verify(token, secret.secret, function(err, decoded) {      
-//       if (err) {
-//         return res.json({ success: false, message: 'Failed to authenticate token.' });    
-//       } else {
-//         // if everything is good, save to request for use in other routes
-//         req.decoded = decoded;    
-//         next();
-//       }
-//     });
+		// if there is no token
+		// return an error
+		return res.status(403).send({ 
+		    success: false, 
+		    message: 'No token provided.' 
+		});
 
-//   } else {
-
-//     // if there is no token
-//     // return an error
-//     return res.status(403).send({ 
-//         success: false, 
-//         message: 'No token provided.' 
-//     });
-    
-//   }
-// });
+	}
+});
 
 // create a sentence
 router.post('/sentences', function(req, res){
+		console.log('test');
 		var sentence = new Sentence();
 		sentence.sentence = req.body.sentence;
 		sentence.date = Date.now();
-		sentence.userName = req.body.userName;
+		sentence.userName = req.decoded.userName;
 		sentence.deleted = false;
+		console.log(sentence);
 
 		console.log(sentence);
 

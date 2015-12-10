@@ -11,6 +11,8 @@
         "method-override" : "*" ,
         "morgan" : "*",
         "jsonwebtoken" : "*",
-        "cookie-parser": "*"
+        "cookie-parser" : "*",
+        "connect-mongodb-session" : "*",
+        "express-session" : "*" 
       }
 }

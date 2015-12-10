@@ -8,8 +8,7 @@ var UserModel    = require('./../models/user');
 var jwt          = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var cookieParser = require('cookie-parser');
 
-var app = express();
-app.use(cookieParser());
+router.use(cookieParser());
 
 
 var dbms = mongoose.createConnection(db.url);
@@ -23,7 +22,7 @@ router.use(function(req, res, next) {
 });
 
 
-router.post( '/authenticate', function(req,res) {
+router.post('/authenticate', function(req,res) {
 	User.findOne({userName: req.body.userName}, function(err, user) {
 		if(err){
 			throw err;

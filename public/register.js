@@ -9,6 +9,7 @@ app.controller('RegisterController',
 	$scope.formData = {};
 	$scope.alertMessage = "";
 	$scope.isFormComplete = false;
+	//$scope.isLoggedIn = 
 
 	$scope.submitRegistration = function() {
 

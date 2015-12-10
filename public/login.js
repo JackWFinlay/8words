@@ -7,6 +7,7 @@ login.controller('LoginController',
 	function($scope, $http, $timeout, $window) {
 		$scope.formData = {};
 		$scope.alertMessage = '';
+		
 
 		$scope.login = function() {
 			
