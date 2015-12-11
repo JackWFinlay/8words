@@ -1,6 +1,6 @@
 // sentences.js
 var express       = require('express');
-var cookieParser  = require('cookie-parser');
+//var cookieParser  = require('cookie-parser');
 var router 	      = express.Router();
 var db 		      = require('./../../config/db');
 var secret        = require('./../../config/secret');
@@ -12,11 +12,11 @@ var dbms = mongoose.createConnection(db.url);
 var Sentence = dbms.model('Sentence', SentenceModel);
 
 // middleware to use for all requests
-router.use(function(req, res, next) {
-	// do logging
-	console.log('/sentences routed.');
-	next(); // make sure we go to the next routes and don't stop here
-});
+// router.use(function(req, res, next) {
+// 	// do logging
+// 	console.log('/sentences routed.');
+// 	next(); // make sure we go to the next routes and don't stop here
+// });
 
 var obj = { message: "", sentences: []};
 
@@ -70,7 +70,6 @@ router.use('/sentences', function(req, res, next) {
  	// decode token
  	if (token) {
 
-	    // verifies secret and checks exp
 	    jwt.verify(token, secret.secret, function(err, decoded) {      
 		    if (err) {
 		   		console.log('Failed to authenticate token.');
@@ -97,15 +96,11 @@ router.use('/sentences', function(req, res, next) {
 
 // create a sentence
 router.post('/sentences', function(req, res){
-		console.log('test');
 		var sentence = new Sentence();
 		sentence.sentence = req.body.sentence;
 		sentence.date = Date.now();
-		sentence.userName = req.decoded.userName;
+		sentence.username = req.decoded.username;
 		sentence.deleted = false;
-		console.log(sentence);
-
-		console.log(sentence);
 
 		sentence.save(function(err){
 			if (err) {

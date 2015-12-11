@@ -60,28 +60,26 @@ app.use(require('express-session')({
     }));
 
 
-// ROUTES FOR OUR API
+// ROUTE
 // =============================================================================
-var router = express.Router();              // get an instance of the express Router
+var router = express.Router();// get an instance of the express Router
 
-app.all('*', function(req, res, next){
-	console.log(req.session.userName);
-	if (req.session.userName === undefined ){
-		var token = req.cookies.token;
-		jwt.verify(token, secret.secret, function(err, decoded) {      
-		    if (err) {
-	      	   	console.log('token verification error');
-		    } else {
-		      	// if everything is good, save to request for use in other routes
-	      		req.decoded = decoded; 
-	      		var userName = req.session.userName;
-	      		userName = req.decoded.userName;   
-		      	//next();
-		    }
-	    });
-	}
-	next();
-});
+// app.all('*', function(req, res, next){
+// 	console.log(req.session.username);
+// 	if (req.session.username === undefined ){
+// 		var token = req.cookies.token;
+// 		jwt.verify(token, secret.secret, function(err, decoded) {      
+// 		    if (err) {
+// 	      	   	console.log('token verification error');
+// 		    } else {
+// 	      		req.decoded = decoded; 
+// 	      		req.session.username = req.decoded.username;
+// 		      	next();
+// 		    }
+// 	    });
+// 	}
+// 	next();
+// });
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
@@ -98,7 +96,12 @@ app.get('/register', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
-        res.sendFile("/public/login.html", {"root": __dirname});
+		if (req.cookies.token !== undefined) {
+			//Send the user back to the homepage if already logged in.
+			res.sendFile("/public/index.html", {"root": __dirname}); 
+		} else {
+        	res.sendFile("/public/login.html", {"root": __dirname});
+    	}
 });
 
 // START THE SERVER

@@ -30,13 +30,15 @@
 					autocomplete="off" 
 					placeholder="What's up?"
 					ng-model="formData.sentence"
+					ng-change="isValidSentence(formData.sentence)"
 					>
 					<span class="input-group-btn">
 						<button id="submit-button"
 						class="btn btn-red" 
 						ng-click="createSentence();"
 						onclick="this.blur();"
-						ng-disabled="isValidSentence(formData.sentence)" disabled>Say</button>
+						ng-disabled="submitDisabled" 
+						>Say</button>
 					</span>
 				</div>
 			</form>
@@ -48,7 +50,7 @@
 			<div ng-repeat="sentence in sentences.sentences">
 				<blockquote>
 					<p>{{sentence.sentence}}</p>
-					<p>-&nbsp;{{sentence.userName}}&nbsp;{{sentence.date | date}}</p>
+					<p>-&nbsp;{{sentence.username}}&nbsp;{{sentence.date | date}}</p>
 				</blockquote>
 			</div>
 		</div>

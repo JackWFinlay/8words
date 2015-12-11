@@ -3,6 +3,7 @@ var app = angular.module('core', ['ngAnimate', 'shared']);
 
 app.controller('SentenceController', ['$scope', '$http', '$timeout',function($scope, $http, $timeout) {
 	$scope.formData = {};
+	$scope.submitDisabled = true;
 
 	$http.get('/api/sentences')
 	    .success(function(data) {
@@ -16,6 +17,7 @@ app.controller('SentenceController', ['$scope', '$http', '$timeout',function($sc
 
 	// when submitting the add form, send the text to the node API
 	$scope.createSentence = function() {
+		$scope.submitDisabled = true;
 	    $http.post('/api/sentences', $scope.formData)
 	        .success(function(data) {
 	            $scope.formData = {}; // clear the form so our user is ready to enter another
@@ -26,11 +28,13 @@ app.controller('SentenceController', ['$scope', '$http', '$timeout',function($sc
 	            console.log(data);
 	        })
 	        .error(function(data) {
+	        	$scope.submitDisabled = false;
 	        	$scope.isSuccess = false;
 	        	$scope.alertMessage = "Unable to post sentence. Please try again.";
 	            doMessage();
 	            console.log('Error: ' + data);
 	        });
+
 	};
 
 
@@ -56,10 +60,17 @@ app.controller('SentenceController', ['$scope', '$http', '$timeout',function($sc
 		if (sentence === null ||
 			sentence === "" ||
 			sentence === undefined){
+			$scope.submitDisabled = true;
 			return true;
 		}
-		
-		return !sentence.match(/^(\b\w+\b[\s]*){1,8}(\.{0,3})$/);
+			
+		if (sentence.match(/^(\b\w+\b[\s]*){1,8}(\.{0,3})$/)){
+			$scope.submitDisabled = false;
+			return false;
+		} else {
+			$scope.submitDisabled = true;
+			return true;
+		}
 	}
 
 

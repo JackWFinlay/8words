@@ -30,7 +30,7 @@ router.use(function(req, res, next) {
 router.post('/register', function(req, res) {
 
 	var user = new User();
-	user.userName = req.body.userName;
+	user.username = req.body.username;
 	user.password = req.body.password;
 	user.email = req.body.email;
 	user.joinDate = Date.now();
@@ -51,7 +51,7 @@ router.post('/register', function(req, res) {
 
 router.post('/register/checkUser', function(req, res) {
 	
-	User.find({ 'userName' : req.body.userName })
+	User.find({ 'username' : req.body.userName })
 		.exec(function(err, user){
 
 			if (err) {

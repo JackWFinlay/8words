@@ -13,7 +13,7 @@ app.controller('RegisterController',
 
 	$scope.submitRegistration = function() {
 
-	    if (!$scope.validUserName){
+	    if (!$scope.validUsername){
 	    	$scope.isSuccess = false;
         	$scope.alertMessage = "Username invalid or in use. Please try again."
             doMessage();
@@ -44,25 +44,25 @@ app.controller('RegisterController',
 	    }
 	};
 
-	$scope.checkUserName = function() {
-		if ($scope.formData.userName === "" ||
-			$scope.formData.userName === undefined){
-			$scope.validUserName = false;
+	$scope.checkUsername = function() {
+		if ($scope.formData.username === "" ||
+			$scope.formData.username === undefined){
+			$scope.validUsername = false;
 			return;
 		}
 
-		var userName = { userName : $scope.formData.userName };
-		$http.post('/api/register/checkUser', userName)
+		var username = { username : $scope.formData.username };
+		$http.post('/api/register/checkUser', username)
 			.success(function(data) {
 
 				if(data.exists){
 					$scope.isSuccess = false;
 	        		$scope.alertMessage = "The specified username already exists!";
-	        		$scope.validUserName = false;
+	        		$scope.validUsername = false;
 	        	} else {
 	        		$scope.isSuccess = true;
 	        		$scope.alertMessage = "The specified username is available!";
-	        		$scope.validUserName = true;
+	        		$scope.validUsername = true;
 	        	}
 
 	        	doMessage();
@@ -113,7 +113,7 @@ app.controller('RegisterController',
 
 	$scope.isComplete = function() {
 		$scope.isFormComplete =  
-			($scope.isValidUserName && 
+			($scope.isValidUsername && 
 			 	$scope.validEmail &&
 				$scope.passwordsMatch()
 		 	);

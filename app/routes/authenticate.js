@@ -6,10 +6,6 @@ var mongoose     = require('mongoose');
 var db 		     = require('./../../config/db');
 var UserModel    = require('./../models/user');
 var jwt          = require('jsonwebtoken'); // used to create, sign, and verify tokens
-var cookieParser = require('cookie-parser');
-
-router.use(cookieParser());
-
 
 var dbms = mongoose.createConnection(db.url);
 var User = dbms.model('User', UserModel);
@@ -23,7 +19,7 @@ router.use(function(req, res, next) {
 
 
 router.post('/authenticate', function(req,res) {
-	User.findOne({userName: req.body.userName}, function(err, user) {
+	User.findOne({username: req.body.username}, function(err, user) {
 		if(err){
 			throw err;
 		}
@@ -41,7 +37,7 @@ router.post('/authenticate', function(req,res) {
 				});
 			} else {
 				var token = jwt.sign(user, secret.secret, { issuer: '8words' });
-			
+				req.session.username = req.body.username;
 				res.cookie('token' , token, {secure: false, httpOnly: true});
 				res.json({
 					success: true,
@@ -52,6 +48,7 @@ router.post('/authenticate', function(req,res) {
 		}
 	})
 });
+
 
 
 

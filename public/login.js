@@ -28,8 +28,8 @@ login.controller('LoginController',
 		};
 
 		var formComplete = function(){
-			return ($scope.formData.userName !== undefined &&
-					$scope.formData.userName !== '' &&
+			return ($scope.formData.username !== undefined &&
+					$scope.formData.username !== '' &&
 					$scope.formData.password !== undefined &&
 					$scope.formData.password !== '' );
 				
