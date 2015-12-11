@@ -10,12 +10,12 @@ var jwt          = require('jsonwebtoken'); // used to create, sign, and verify 
 var dbms = mongoose.createConnection(db.url);
 var User = dbms.model('User', UserModel);
 
-// middleware to use for all requests
-router.use(function(req, res, next) {
-	// do logging
-	console.log('Authentication request recieved.');
-	next(); // make sure we go to the next routes and don't stop here
-});
+// // middleware to use for all requests
+// router.use(function(req, res, next) {
+// 	// do logging
+// 	console.log('Authentication request recieved.');
+// 	next(); // make sure we go to the next routes and don't stop here
+// });
 
 
 router.post('/authenticate', function(req,res) {

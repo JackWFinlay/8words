@@ -49,7 +49,7 @@ store.on('error', function(error) {
       assert.ok(false);
     });
 
-app.use(require('express-session')({
+app.use(session({
 		secret: secret.secret,
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week 
@@ -64,22 +64,23 @@ app.use(require('express-session')({
 // =============================================================================
 var router = express.Router();// get an instance of the express Router
 
-// app.all('*', function(req, res, next){
-// 	console.log(req.session.username);
-// 	if (req.session.username === undefined ){
-// 		var token = req.cookies.token;
-// 		jwt.verify(token, secret.secret, function(err, decoded) {      
-// 		    if (err) {
-// 	      	   	console.log('token verification error');
-// 		    } else {
-// 	      		req.decoded = decoded; 
-// 	      		req.session.username = req.decoded.username;
-// 		      	next();
-// 		    }
-// 	    });
-// 	}
-// 	next();
-// });
+app.all('*', function(req, res, next){
+	console.log(req.session.username);
+	if (req.session.username === undefined ){
+		var token = req.cookies.token;
+		jwt.verify(token, secret.secret, function(err, decoded) {      
+		    if (err) {
+	      	   	console.log('token verification error');
+		    } else {
+	      		req.decoded = decoded; 
+	      		req.session.username = req.decoded.username;
+		      	console.log(req.session.username);
+		      	next('route');
+		    }
+	    });
+	}
+	next('route');
+});
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
