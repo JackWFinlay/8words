@@ -1,9 +1,17 @@
 // core.js
-var app = angular.module('core', ['ngAnimate', 'shared']);
+var app = angular.module('core', ['ngAnimate', 'shared', 'ngCookies']);
 
-app.controller('SentenceController', ['$scope', '$http', '$timeout',function($scope, $http, $timeout) {
+app.controller('SentenceController', 
+	['$scope', '$http', '$timeout', '$cookies',
+	function($scope, $http, $timeout, $cookies) {
+	//$cookies.put('username', 'Jack');
 	$scope.formData = {};
 	$scope.submitDisabled = true;
+	$scope.isLoggedIn = ($cookies.get('username') !== undefined);
+	console.log($scope.isLoggedIn);
+	console.log($cookies.get('username'));
+	$scope.username = $cookies.get('username');
+	
 
 	$http.get('/api/sentences')
 	    .success(function(data) {

@@ -27,12 +27,13 @@ router.get('/sentences', function(req, res) {
 		.exec(function(err, sentences) {
 			if (err) {
 				res.send(err);
-			}
+			} else {
 			
-			obj.sentences = sentences;
-			obj.message = "";
-
-			res.json(obj);
+				obj.sentences = sentences;
+				obj.message = "";
+	
+				res.json(obj);
+			}
 });
 
 router.get('/sentences/:sentence_id', function(req, res) {

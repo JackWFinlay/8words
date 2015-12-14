@@ -37,7 +37,7 @@ router.post('/authenticate', function(req,res) {
 				});
 			} else {
 				var token = jwt.sign(user, secret.secret, { issuer: '8words' });
-				req.session.username = req.body.username;
+				//req.session.username = req.body.username;
 				res.cookie('token' , token, {secure: false, httpOnly: true});
 				res.json({
 					success: true,

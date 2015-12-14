@@ -38,26 +38,26 @@ app.use(morgan('dev'));
 // SESSION STORE
 // =============================================================================
 
-var store = new MongoDBStore(
-	{ 
-	uri: db.url,
-	collection: 'sessions'
-	});
+// var store = new MongoDBStore(
+// 	{ 
+// 	uri: db.url,
+// 	collection: 'sessions'
+// 	});
 
-store.on('error', function(error) {
-      assert.ifError(error);
-      assert.ok(false);
-    });
+// store.on('error', function(error) {
+//       assert.ifError(error);
+//       assert.ok(false);
+//     });
 
-app.use(session({
-		secret: secret.secret,
-		cookie: {
-			maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week 
-		},
-		store: store,
-		resave: false,
-    	saveUninitialized: false
-    }));
+// app.use(session({
+// 		secret: secret.secret,
+// 		cookie: {
+// 			maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week 
+// 		},
+// 		store: store,
+// 		resave: false,
+//     	saveUninitialized: false
+//     }));
 
 
 // ROUTE
@@ -65,21 +65,20 @@ app.use(session({
 var router = express.Router();// get an instance of the express Router
 
 app.all('*', function(req, res, next){
-	console.log(req.session.username);
-	if (req.session.username === undefined ){
+	//console.log(req.session.username);
+	if (req.cookies.username === undefined ){
 		var token = req.cookies.token;
 		jwt.verify(token, secret.secret, function(err, decoded) {      
 		    if (err) {
 	      	   	console.log('token verification error');
 		    } else {
 	      		req.decoded = decoded; 
-	      		req.session.username = req.decoded.username;
-		      	console.log(req.session.username);
-		      	next('route');
+				res.cookie('username' , req.decoded.username, {secure: false, httpOnly: false});		      	next();
+		    	next();
 		    }
 	    });
 	}
-	next('route');
+	next();
 });
 
 // REGISTER OUR ROUTES -------------------------------
@@ -99,7 +98,7 @@ app.get('/register', function(req, res) {
 app.get('/login', function(req, res) {
 		if (req.cookies.token !== undefined) {
 			//Send the user back to the homepage if already logged in.
-			res.sendFile("/public/index.html", {"root": __dirname}); 
+			res.redirect("/"	); 
 		} else {
         	res.sendFile("/public/login.html", {"root": __dirname});
     	}
