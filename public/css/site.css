@@ -6,8 +6,25 @@ blockquote {
   border-left: 5px solid #990000;
 }
 
+blockquote .btn-hover {
+  display: none;
+}
+
+blockquote:hover .btn-hover {
+  display: inline;
+  color: #990000;
+}
+
 .btn:active .btn:hover {
   color: #fff;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  outline: none;
 }
 
 .btn-red {

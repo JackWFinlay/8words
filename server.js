@@ -64,7 +64,7 @@ app.use(morgan('dev'));
 // =============================================================================
 var router = express.Router();// get an instance of the express Router
 
-app.all('*', function(req, res, next){
+app.use(function(req, res, next){
 	//console.log(req.session.username);
 	if (req.cookies.username === undefined ){
 		var token = req.cookies.token;

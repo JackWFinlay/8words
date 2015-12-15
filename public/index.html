@@ -50,6 +50,7 @@
 		<div class="row" >
 			<div ng-repeat="sentence in sentences.sentences">
 				<blockquote>
+					<button class="btn-delete btn-hover pull-right" ng-click="deleteSentence(sentence._id)" onclick="this.blur()">x</button>
 					<p>{{sentence.sentence}}</p>
 					<p>-&nbsp;{{sentence.username}}&nbsp;{{sentence.date | date}}</p>
 				</blockquote>

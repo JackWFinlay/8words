@@ -8,10 +8,7 @@ app.controller('SentenceController',
 	$scope.formData = {};
 	$scope.submitDisabled = true;
 	$scope.isLoggedIn = ($cookies.get('username') !== undefined);
-	console.log($scope.isLoggedIn);
-	console.log($cookies.get('username'));
 	$scope.username = $cookies.get('username');
-	
 
 	$http.get('/api/sentences')
 	    .success(function(data) {
@@ -47,19 +44,24 @@ app.controller('SentenceController',
 
 
 	$scope.deleteSentence = function(id) {
+
 	    $http.delete('/api/sentences/' + id)
 	        .success(function(data) {
+	        	
 	            $scope.sentences = data;
 	            $scope.isSuccess = true;
+	            $scope.alertMessage = data.message;
 	            doMessage();
 	            console.log(data);
 
 	        })
 	        .error(function(data) {
+	        	
 	        	$scope.isSuccess = false;
 	        	$scope.alertMessage="Error deleting sentence. Please try again.";
 	            doMessage();
 	            console.log('Error: ' + data);
+
 	        });
 	};
 

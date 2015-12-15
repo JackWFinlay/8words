@@ -11,13 +11,6 @@ var jwt           = require('jsonwebtoken');
 var dbms = mongoose.createConnection(db.url);
 var Sentence = dbms.model('Sentence', SentenceModel);
 
-// middleware to use for all requests
-// router.use(function(req, res, next) {
-// 	// do logging
-// 	console.log('/sentences routed.');
-// 	next(); // make sure we go to the next routes and don't stop here
-// });
-
 var obj = { message: "", sentences: []};
 
 router.get('/sentences', function(req, res) {
@@ -77,8 +70,7 @@ router.use('/sentences', function(req, res, next) {
 		      	return res.json({ success: false, message: 'Failed to authenticate token.' });    
 		    } else {
 		      	// if everything is good, save to request for use in other routes
-	      		req.decoded = decoded; 
-	      		console.log('about to pass to next');   
+	      		req.decoded = decoded;   
 		      	next();
 		    }
 	    });
@@ -97,6 +89,7 @@ router.use('/sentences', function(req, res, next) {
 
 // create a sentence
 router.post('/sentences', function(req, res){
+	console.log('test');
 		var sentence = new Sentence();
 		sentence.sentence = req.body.sentence;
 		sentence.date = Date.now();
@@ -144,9 +137,18 @@ router.delete('/sentences/:sentence_id', function(req, res) {
 						//res.send(err);
 					}
 
-					obj.message = 'Successfully deleted!';
-					obj.sentences = [];
-					res.json(obj);
+					Sentence
+					.find({ 'deleted' : false })
+					.sort('-date') // sort by date desc.
+					.exec(function(err, sentences) {
+						if (err) {
+							res.send(err);
+						}
+
+						obj.sentences = sentences;
+						obj.message = 'Successfully deleted!';
+						res.json(obj);
+					});
 				});
 			}
 		});
