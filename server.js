@@ -65,6 +65,7 @@ app.use(morgan('dev'));
 var router = express.Router();// get an instance of the express Router
 
 app.use(function(req, res, next){
+
 	//console.log(req.session.username);
 	if (req.cookies.username === undefined ){
 		var token = req.cookies.token;
@@ -98,7 +99,7 @@ app.get('/register', function(req, res) {
 app.get('/login', function(req, res) {
 		if (req.cookies.token !== undefined) {
 			//Send the user back to the homepage if already logged in.
-			res.redirect("/"	); 
+			res.redirect("/"); 
 		} else {
         	res.sendFile("/public/login.html", {"root": __dirname});
     	}

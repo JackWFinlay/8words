@@ -81,7 +81,7 @@ router.use('/sentences', function(req, res, next) {
 		// return an error
 		return res.status(403).send({ 
 		    success: false, 
-		    message: 'No token provided.' 
+		    message: 'Please login to access this feature.' 
 		});
 
 	}
@@ -121,7 +121,7 @@ router.post('/sentences', function(req, res){
 
 // get the sentence with that id (accessed at GET http://localhost:8080/api/sentences/sententence_id)
 router.delete('/sentences/:sentence_id', function(req, res) {
-
+	// NEED TO SECURE THIS TO THE CORRECT USER.
 		Sentence.findById(req.params.sentence_id, function(err, sentence){
 			if (err || sentence === null){
 				res.json({ message: 'There was an error deleting the sentence. The specfied sentence may not exist.'})

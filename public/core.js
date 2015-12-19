@@ -2,13 +2,22 @@
 var app = angular.module('core', ['ngAnimate', 'shared', 'ngCookies']);
 
 app.controller('SentenceController', 
-	['$scope', '$http', '$timeout', '$cookies',
-	function($scope, $http, $timeout, $cookies) {
+	['$scope', '$http', '$timeout', '$cookies', '$window',
+	function($scope, $http, $timeout, $cookies, $window) {
 	//$cookies.put('username', 'Jack');
 	$scope.formData = {};
 	$scope.submitDisabled = true;
 	$scope.isLoggedIn = ($cookies.get('username') !== undefined);
 	$scope.username = $cookies.get('username');
+
+	var checkLoggedInOnLoad = function (){
+		if(!$scope.isLoggedIn){
+			$window.location.href = '/login';
+			console.log("not logged in");
+		}
+
+    }
+    //checkLoggedInOnLoad();
 
 	$http.get('/api/sentences')
 	    .success(function(data) {
@@ -35,7 +44,8 @@ app.controller('SentenceController',
 	        .error(function(data) {
 	        	$scope.submitDisabled = false;
 	        	$scope.isSuccess = false;
-	        	$scope.alertMessage = "Unable to post sentence. Please try again.";
+	        	var message = (data.message ? data.message : "");
+	        	$scope.alertMessage = "Unable to post sentence. " + data.message;
 	            doMessage();
 	            console.log('Error: ' + data);
 	        });
@@ -93,6 +103,7 @@ app.controller('SentenceController',
     	$scope.showMessage = false;
     };
 
+    
 
 }]);
 

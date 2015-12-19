@@ -17,7 +17,7 @@ login.controller('LoginController',
 				$http.post('/api/authenticate', $scope.formData)
 					.success( function(data) {
 						if(data.success){
-			            	$window.location.href = 'index.html';
+			            	$window.location.href = '/';
 			        	} else {
 			        		$scope.alertMessage = data.message;
 			        		$scope.isSuccess = false;
