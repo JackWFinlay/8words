@@ -42,7 +42,7 @@ router.post('/register', function(req, res) {
 		if (err) {
 				res.send(err);
 		} else {
-
+			
 			res.json({ 'message' : 'User Created!' });
 		}
 	});

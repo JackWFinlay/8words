@@ -72,6 +72,7 @@ app.use(function(req, res, next){
 		jwt.verify(token, secret.secret, function(err, decoded) {      
 		    if (err) {
 	      	   	console.log('token verification error');
+	      	   	//next();
 		    } else {
 	      		req.decoded = decoded; 
 				res.cookie('username' , req.decoded.username, {secure: false, httpOnly: false});		      	next();

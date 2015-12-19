@@ -31,8 +31,8 @@ app.controller('RegisterController',
 		        	$http.post('/api/authenticate', $scope.formData)
 		        	.success(function (data){
     						console.log(data);
-						});
-		            $window.location.href = 'index.html';
+					});
+		            $window.location.href = '/';
 		        })
 		        .error(function(data) {
 		        	$scope.isSuccess = false;

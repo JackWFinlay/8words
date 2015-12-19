@@ -30,8 +30,8 @@ router.post('/authenticate', function(req,res) {
 			} else {
 				var token = jwt.sign(user, secret.secret, { issuer: '8words' });
 				
-				res.cookie('token' , token, {secure: false, httpOnly: true});
-				res.cookie('username' , user.username, {secure: false, httpOnly: false});
+				res.cookie('token' , token, {secure: false, httpOnly: true, maxAge: (1000 * 60 * 60 * 24 * 365) });
+				res.cookie('username' , user.username, {secure: false, httpOnly: false, maxAge: (1000 * 60 * 60 * 24 * 365)});
 
 				res.json({
 					success: true,

@@ -57,10 +57,8 @@ router.get('/sentences/:sentence_id', function(req, res) {
 //router.use(cookieParser());
 
 router.use('/sentences', function(req, res, next) {
-	console.log('about to check for token');
 	// check header or url parameters or post parameters for token
   	var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
- 	console.log(token);
  	// decode token
  	if (token) {
 
@@ -69,7 +67,7 @@ router.use('/sentences', function(req, res, next) {
 		   		console.log('Failed to authenticate token.');
 		      	return res.json({ success: false, message: 'Failed to authenticate token.' });    
 		    } else {
-		      	// if everything is good, save to request for use in other routes
+		      	// If everything is good, save to request for use in other routes
 	      		req.decoded = decoded;   
 		      	next();
 		    }
