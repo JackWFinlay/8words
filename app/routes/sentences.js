@@ -31,23 +31,19 @@ router.get('/sentences', function(req, res) {
 
 router.get('/sentences/:sentence_id', function(req, res) {
 		Sentence.findById(req.params.sentence_id, function(err, sentence) {
-			if (err) {
-				// send back empty array if there is an error.
-				res.json([]);
-				//res.send(err);
-			}
 
 			obj.message = ""
 			obj.sentences = sentence
 
-			if (sentence.deleted){
+			if (err || sentence == null || (sentence != null && sentence.deleted)){
 
 				obj.message = "The sentence does not exist or was deleted."
 				// Send back empty array if sentence is marked "deleted".
 				obj.sentence = [];
-			}
+			} 
 
 			res.json(obj);
+
 		});
 });
 
