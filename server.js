@@ -75,7 +75,7 @@ app.use(function(req, res, next){
 	      	   	//next();
 		    } else {
 	      		req.decoded = decoded; 
-				res.cookie('username' , req.decoded.username, {secure: false, httpOnly: false});		      	next();
+				res.cookie('username' , req.decoded.username, {secure: false, httpOnly: false});
 		    	next();
 		    }
 	    });

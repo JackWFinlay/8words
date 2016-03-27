@@ -97,6 +97,7 @@ router.post('/sentences', function(req, res){
 		sentence.save(function(err){
 			if (err) {
 				res.send(err);
+				//return;
 			}
 
 			Sentence
@@ -105,6 +106,7 @@ router.post('/sentences', function(req, res){
 					.exec(function(err, sentences) {
 				if (err) {
 					res.send(err);
+					//return;
 				}
 
 				obj.sentences = sentences;

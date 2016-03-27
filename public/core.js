@@ -84,7 +84,7 @@ app.controller('SentenceController',
 			return true;
 		}
 			
-		if (sentence.match(/^(\b\w+\b[\s]*){1,8}(\.{0,3})$/)){
+		if (sentence.match(/^([\s]?\b\w+\b[\s,;:/\\-_]?){1,8}[!,\?\.]{0,3}$/)){
 			$scope.submitDisabled = false;
 			return false;
 		} else {

@@ -32,6 +32,7 @@
 					placeholder="What's up?"
 					ng-model="formData.sentence"
 					ng-change="isValidSentence(formData.sentence)"
+					ng-trim="false"
 					>
 					<span class="input-group-btn">
 						<button id="submit-button"
@@ -52,7 +53,7 @@
 				<blockquote>
 					<button class="btn-delete btn-hover pull-right" ng-click="deleteSentence(sentence._id)" onclick="this.blur()">x</button>
 					<p>{{sentence.sentence}}</p>
-					<p>-&nbsp;{{sentence.username}}&nbsp;{{sentence.date | date}}</p>
+					<p>-&nbsp;{{sentence.username}}&nbsp;{{sentence.date | date : 'medium'}}</p>
 				</blockquote>
 			</div>
 		</div>
